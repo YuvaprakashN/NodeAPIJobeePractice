@@ -23,6 +23,7 @@ mongoConnection()
 const errorMiddleware = require('./middlewares/errors');
 const ErrorHandler = require("./utils/errorHandler")
 const auth=require("./routes/auth")
+const user=require("./routes/user")
 const app=express()
 app.use(express.json())
 // Set cookie parser
@@ -30,6 +31,7 @@ app.use(cookieParser());
 
 app.use("/api/v1",jobRoutes)
 app.use('/api/v1', auth);
+app.use('/api/v1', user);
 
 // Handle unhandled routes
 //It should be decleared after all routes
