@@ -1,0 +1,22 @@
+{
+  "name": "jobee-api-",
+  "version": "1.0.0",
+  "description": "https://github.com/ghulamabbas2/jobbee-api",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "prod": "SET NODE_ENV= production & node app.js"
+  },
+  "author": "Yuvaprakash",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "expressjs": "^1.0.1",
+    "mongoose": "^6.0.11",
+    "node-geocoder": "^3.27.0",
+    "slugify": "^1.6.1",
+    "validator": "^13.6.0"
+  }
+}
