@@ -21,40 +21,40 @@ exports.getUserProfile = catchAsyncErrors( async(req, res, next) => {
     })
 });
 
-// // Update current user Password   =>    /api/v1/password/update
-// exports.updatePassword = catchAsyncErrors( async(req, res, next) => {
-//     const user = await User.findById(req.user.id).select('+password');
+// Update current user Password   =>    /api/v1/password/update
+exports.updatePassword = catchAsyncErrors( async(req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password');
 
-//     // Check previous user password
-//     const isMatched = await user.comparePassword(req.body.currentPassword);
-//     if(!isMatched) {
-//         return next(new ErrorHandler('Old Password is incorrect.', 401));
-//     }
+    // Check previous user password
+    const isMatched = await user.comparePassword(req.body.currentPassword);
+    if(!isMatched) {
+        return next(new ErrorHandler('Old Password is incorrect.', 401));
+    }
 
-//     user.password = req.body.newPassword;
-//     await user.save();
+    user.password = req.body.newPassword;
+    await user.save();
 
-//     sendToken(user, 200, res);
-// });
+    sendToken(user, 200, res);
+});
 
-// // Update current user data   =>    /api/v1/me/update
-// exports.updateUser = catchAsyncErrors( async(req, res, next) => {
-//     const newUserData = {
-//         name : req.body.name,
-//         email : req.body.email
-//     }
+// Update current user data   =>    /api/v1/me/update
+exports.updateUser = catchAsyncErrors( async(req, res, next) => {
+    const newUserData = {
+        name : req.body.name,
+        email : req.body.email
+    }
 
-//     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-//         new : true,
-//         runValidators : true,
-//         useFindAndModify : false
-//     });
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new : true,
+        runValidators : true,
+        useFindAndModify : false
+    });
 
-//     res.status(200).json({
-//         success : true,
-//         data : user
-//     });
-// });
+    res.status(200).json({
+        success : true,
+        data : user
+    });
+});
 
 // // Show all applied jobs   =>   /api/v1/jobs/applied
 // exports.getAppliedJobs = catchAsyncErrors( async (req, res, next) => {
