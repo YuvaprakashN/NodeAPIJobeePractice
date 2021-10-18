@@ -2,8 +2,12 @@ const Job = require("../models/jobs")
 const ErrorHandler = require("../utils/errorHandler")
 const geoCoder=require("../utils/geocoder")
 const catchAsyncError=require("../middlewares/catchAsyncErrors")
+const APIFilters = require("../utils/apiFilters")
 exports.getJobs =catchAsyncError( async (req, res, err) => {
-    const jobs=await Job.find()
+   
+    const apiFilter=new APIFilters(Job.find(),req.query)
+                        .filter()
+    const jobs=await apiFilter.query
     res.status(200).json({
         success: true,
         results: jobs.length,
