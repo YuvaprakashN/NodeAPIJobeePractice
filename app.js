@@ -20,11 +20,20 @@ process.on('uncaughtException', err => {
 
 mongoConnection()
 const errorMiddleware = require('./middlewares/errors');
+const ErrorHandler = require("./utils/errorHandler")
 
 const app=express()
 app.use(express.json())
 
 app.use("/api/v1",jobRoutes)
+
+// Handle unhandled routes
+//It should be decleared after all routes
+app.all('*', (req, res, next) => {
+    next(new ErrorHandler(`${req.originalUrl} route not found`, 404));
+});
+
+
 
 // Middleware to handle errors
 app.use(errorMiddleware);
