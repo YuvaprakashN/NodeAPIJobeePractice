@@ -54,16 +54,16 @@ userSchema.pre('save', async function(next) {
 });
 
 // Return JSON Web Token
-// userSchema.methods.getJwtToken = function() {
-//     return jwt.sign({ id : this._id}, process.env.JWT_SECRET, {
-//         expiresIn : process.env.JWT_EXPIRES_TIME
-//     });
-// }
+userSchema.methods.getJwtToken = function() {
+    return jwt.sign({ id : this._id}, process.env.JWT_SECRET, {
+        expiresIn : process.env.JWT_EXPIRES_TIME
+    });
+}
 
 // Compare user password in database password
-// userSchema.methods.comparePassword = async function(enterPassword) {
-//     return await bcrypt.compare(enterPassword, this.password);
-// }
+userSchema.methods.comparePassword = async function(enterPassword) {
+    return await bcrypt.compare(enterPassword, this.password);
+}
 
 // Generate Password Reset Token
 // userSchema.methods.getResetPasswordToken = function() {
