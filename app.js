@@ -5,6 +5,7 @@ dotEnv.config({path:"./config/config.env"})
 const jobRoutes=require("./routes/jobs")
 const mongoConnection=require("./config/database")
 
+const cookieParser = require('cookie-parser');
 
 // Handling Uncaught Exception
 //It should above all declearation to handle un caught exception
@@ -24,6 +25,8 @@ const ErrorHandler = require("./utils/errorHandler")
 const auth=require("./routes/auth")
 const app=express()
 app.use(express.json())
+// Set cookie parser
+app.use(cookieParser());
 
 app.use("/api/v1",jobRoutes)
 app.use('/api/v1', auth);
