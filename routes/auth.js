@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { 
     registerUser,
-  //  loginUser,
+    loginUser,
    // forgotPassword,
     //resetPassword,
     //logout
@@ -12,7 +12,7 @@ const {
  //const { isAuthenticatedUser } = require('../middlewares/auth');
 
 router.route('/register').post(registerUser);
-// router.route('/login').post(loginUser);
+ router.route('/login').post(loginUser);
 
 // router.route('/password/forgot').post(forgotPassword);
 
