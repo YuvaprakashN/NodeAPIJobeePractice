@@ -15,36 +15,39 @@ exports.registerUser = catchAsyncErrors( async (req, res, next) => {
         password,
         role
     });
-res.status(201).json(user)
+const token=user.getJwtToken();
+res.status(201).json({
+    user,token
+})
    // sendToken(user, 200, res);
-});
+}); 
 
 // // Login user  =>  /api/v1/login
-// exports.loginUser = catchAsyncErrors( async (req, res, next) => {
-//     const { email, password } = req.body;
+exports.loginUser = catchAsyncErrors( async (req, res, next) => {
+    const { email, password } = req.body;
 
-//     // Checks if email or password is entered by user
-//     if(!email || !password) {
-//         return next(new ErrorHandler('Please enter email & Password'), 400)
-//     }
+    // Checks if email or password is entered by user
+    if(!email || !password) {
+        return next(new ErrorHandler('Please enter email & Password'), 400)
+    }
 
-//     // Finding user in database
-//     const user = await User.findOne({email}).select('+password');
+    // Finding user in database
+    const user = await User.findOne({email}).select('+password');
 
-//     if(!user) {
-//         return next(new ErrorHandler('Invalid Email or Password.', 401))
-//     }
+    if(!user) {
+        return next(new ErrorHandler('Invalid Email or Password.', 401))
+    }
 
-//     // Check if password is correct
-//     const isPasswordMatched = await user.comparePassword(password);
+    // Check if password is correct
+    const isPasswordMatched = await user.comparePassword(password);
 
-//     if(!isPasswordMatched) {
-//         return next(new ErrorHandler('Invalid Email or Password', 401));
-//     }
+    if(!isPasswordMatched) {
+        return next(new ErrorHandler('Invalid Email or Password', 401));
+    }
 
-//     sendToken(user, 200, res);
+    sendToken(user, 200, res);
 
-// });
+});
 
 // // Forgot Password  =>  /api/v1/password/forgot
 // exports.forgotPassword = catchAsyncErrors( async (req, res, next) => {
