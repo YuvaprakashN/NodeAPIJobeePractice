@@ -4,6 +4,7 @@ const dotEnv=require("dotenv")
 dotEnv.config({path:"./config/config.env"})
 const jobRoutes=require("./routes/jobs")
 const mongoConnection=require("./config/database")
+const fileUpload = require('express-fileupload');
 
 const cookieParser = require('cookie-parser');
 
@@ -23,15 +24,16 @@ mongoConnection()
 const errorMiddleware = require('./middlewares/errors');
 const ErrorHandler = require("./utils/errorHandler")
 const auth=require("./routes/auth")
-const user=require("./routes/user")
+const userRoute=require("./routes/user")
 const app=express()
 app.use(express.json())
 // Set cookie parser
 app.use(cookieParser());
-
+// Handle file uploads
+app.use(fileUpload());
 app.use("/api/v1",jobRoutes)
 app.use('/api/v1', auth);
-app.use('/api/v1', user);
+app.use('/api/v1', userRoute);
 
 // Handle unhandled routes
 //It should be decleared after all routes
