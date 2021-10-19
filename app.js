@@ -7,7 +7,8 @@ const mongoConnection=require("./config/database")
 const fileUpload = require('express-fileupload');
 
 const cookieParser = require('cookie-parser');
-
+const mongoSanitize = require('express-mongo-sanitize');
+const xssClean = require('xss-clean');
 // Handling Uncaught Exception
 //It should above all declearation to handle un caught exception
 // it occurs if any variable not delures 
@@ -20,13 +21,46 @@ const cookieParser = require('cookie-parser');
 //sdfasdfdfdf is not defined so it causes uncaught
 //console.log(sdfasdfdfdf);
 
+const rateLimit=require("express-rate-limit")
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200 // limit each IP to 100 requests per windowMs
+  }); 
+  
+  const helmet = require("helmet");
+  //  apply to all requests
+  
+
 mongoConnection()
 const errorMiddleware = require('./middlewares/errors');
 const ErrorHandler = require("./utils/errorHandler")
 const auth=require("./routes/auth")
 const userRoute=require("./routes/user")
 const app=express()
+
 app.use(express.json())
+app.use(limiter);
+app.use(helmet())
+const hpp = require('hpp');
+const cors = require('cors');
+// Sanitize data
+//if we login using json as {"email":"{$gt:''}","password":"pass"}} ir return token
+//to prevent this we use mongoSanitize
+app.use(mongoSanitize());
+
+// Prevent XSS attacks
+// it prevent post data as scripts
+app.use(xssClean());
+
+// Prevent Parameter Pollution
+app.use(hpp({
+    whitelist: ['positions']
+}));
+
+// Setup CORS - Accessible by other domains
+app.use(cors());
+
 // Set cookie parser
 app.use(cookieParser());
 // Handle file uploads
