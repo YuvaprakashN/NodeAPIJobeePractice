@@ -10,10 +10,10 @@ const APIFilters = require('../utils/apiFilters');
 exports.getUserProfile = catchAsyncErrors( async(req, res, next) => {
 
     const user = await User.findById(req.user.id)
-        // .populate({
-        //     path : 'jobsPublished',
-        //     select : 'title postingDate'
-        // });
+        .populate({
+            path : 'jobsPublished',
+            select : 'title postingDate applicantsApplied'
+        });
 
     res.status(200).json({
         success : true,
@@ -79,23 +79,23 @@ exports.updateUser = catchAsyncErrors( async(req, res, next) => {
 //     })
 // });
 
-// // Delete current user   =>    /api/v1/me/delete
-// exports.deleteUser = catchAsyncErrors( async(req, res, next) => {
+// Delete current user   =>    /api/v1/me/delete
+exports.deleteUser = catchAsyncErrors( async(req, res, next) => {
 
-//     deleteUserData(req.user.id, req.user.role);
+    deleteUserData(req.user.id, req.user.role);
     
-//     const user = await User.findByIdAndDelete(req.user.id);
+    const user = await User.findByIdAndDelete(req.user.id);
 
-//     res.cookie('token', 'none', {
-//         expires : new Date(Date.now()),
-//         httpOnly : true
-//     });
+    res.cookie('token', 'none', {
+        expires : new Date(Date.now()),
+        httpOnly : true
+    });
 
-//     res.status(200).json({
-//         success : true,
-//         message : 'Your account has been deleted.'
-//     })
-// });
+    res.status(200).json({
+        success : true,
+        message : 'Your account has been deleted.'
+    })
+});
 
 // // Adding controller methods that only accessible by admins
 
