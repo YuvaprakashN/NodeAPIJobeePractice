@@ -5,9 +5,10 @@ const {
     registerUser,
     loginUser,
     forgotPassword,
-    resetPassword,
+    resetPassword, 
     logout
- } = require('../controller/authContoller');
+ } = require('../controllers/authContoller');
+const { isAuthenticatedUser } = require('../middlewares/auth');
  
  //const { isAuthenticatedUser } = require('../middlewares/auth');
 

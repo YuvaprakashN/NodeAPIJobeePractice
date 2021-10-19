@@ -129,8 +129,8 @@ jobSchema.pre("save",function(next){
 // Setting up Location
 jobSchema.pre('save', async function(next) {
     const loc = await geoCoder.geocode(this.address);
-console.log("Location Details");
-console.log(loc);
+//console.log("Location Details");
+//console.log(loc);
 
     this.location = {
         type : 'Point',
